@@ -18,16 +18,15 @@ def reply(message):
   if message.from_user.username == 'andreposman':
     bot.reply_to(message, 'Oi Mestre, Avanti Palestra!')
 
-  elif message.username == 'raafvargas':
-    bot.reply_to(message, f'Eai {message.first_name}, Rei do PHP!')
+  elif message.from_user.username == 'raafvargas':
+    bot.reply_to(message, f'Eai {message.from_user.first_name}, Spec em PHP!')
 
-  elif message.username == 'Matheus':
-    bot.reply_to(message, 'Eai {message.first_name}, Rei do Spring!')
+  elif message.from_user.username == 'Matheus':
+    bot.reply_to(message, f'Eai {message.from_user.first_name}, Rei do Spring!')
 
   else:
-    bot.reply_to(message, 'Olá {message.first_name}, Vai Palmeiras!')
+    bot.reply_to(message, f'Olá {message.from_user.first_name}, Vai Palmeiras!')
   
-
 def extract_arg(arg):
   print(arg.split()[1:])
   return arg.split()[1:]
@@ -39,8 +38,7 @@ def handleInput(data, message, stock):
 def handleETF(message, bot, data):
   if data.info['quoteType'] == 'ETF':
     if data.info['regularMarketPrice'] != None:
-      replyMsg = f"Hey {message.from_user.first_name}, {data.info['symbol']} current price is: ${data.info['regularMarketPrice']}"
-
+      replyMsg = f"Hey {message.from_user.first_name}, {data.info['symbol']} current price is ${data.info['regularMarketPrice']}"
       bot.reply_to(message, replyMsg)
 
 def handleEquity(message, bot, data):
@@ -48,20 +46,8 @@ def handleEquity(message, bot, data):
       if data.info['regularMarketPrice'] != None:
         print(json.dumps(data.info))
         price = data.info['currentPrice']
-        replyMsg = f"Hey {message.from_user.first_name}, {data.info['symbol']} current price is: ${price}. 💵"
-
+        replyMsg = f"Hey {message.from_user.first_name}, {data.info['symbol']} current price is ${price}. 💵"
         bot.reply_to(message, replyMsg)
-
-"""
-def foo():
-    while True:
-        try:
-            foo2()
-        except:
-            pass
-        else:
-            break
-"""
 
 def runBot(bot):
   @bot.message_handler(commands=['stock'])
@@ -75,7 +61,7 @@ def runBot(bot):
       print(data.info)
 
       if handleInput(data, message, stock):
-        bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for: {stock}. 🤔")
+        bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {stock}. 🤔")
 
       else:
         handleETF(message, bot, data)
