@@ -21,7 +21,7 @@ def reply(message):
   elif message.from_user.username == 'raafvargas':
     bot.reply_to(message, f'Eai {message.from_user.first_name}, Spec em PHP!')
 
-  elif message.from_user.username == 'Matheus':
+  elif message.from_user.first_name == 'Matheus':
     bot.reply_to(message, f'Eai {message.from_user.first_name}, Rei do Spring!')
 
   else:
