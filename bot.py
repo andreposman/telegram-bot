@@ -83,13 +83,21 @@ Performance:               *{strPerformance}*
 
 
   elif data.info['quoteType'] == 'CRYPTOCURRENCY':
-      r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the ETF:\n\n*{data.info['shortName']}*
+      r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the Crypto:\n\n*{data.info['shortName']}*
 ----------------------------------------------
 Symbol:               *{data.info['symbol']}*
 Current Price:             *${data.info['regularMarketPrice']}*
 Performance:               *{strPerformance}*
 """
   
+  elif data.info['quoteType'] == 'CURRENCY':
+      print('cheguei aqui')
+      r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the FOREX:\n\n*{data.info['shortName']}*
+----------------------------------------------
+Symbol:               *{data.info['symbol']}*
+Current Price:             *${data.info['regularMarketPrice']}*
+"""
+# Performance:               *{strPerformance}*
 
   return r
 
@@ -141,6 +149,20 @@ def handleCrypto(message, bot, data):
       replyMsg = '*Error fetching data*'
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
 
+def handleCurrency(message, bot, data):
+  if data.info['quoteType'] == 'CURRENCY':
+    print("-----------------------------------------")
+    print("CURRENCY")
+    print("-----------------------------------------")
+
+    if not handleInput(data):
+      replyMsg = formatMessage(message, data)
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
+    else:
+      replyMsg = '*Error fetching data*'
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
+
+
 def runBot(bot):
   @bot.message_handler(commands=['fetch'])
   def get_stocks(message):
@@ -162,6 +184,8 @@ def runBot(bot):
         handleETF(message, bot, data)
         handleEquity(message, bot, data)
         handleCrypto(message, bot, data)
+        handleCurrency(message, bot, data)
+
 
 
   bot.infinity_polling()
