@@ -12,7 +12,7 @@ load_dotenv(dotenv_path=env_path)
 
 bot = telebot.TeleBot(os.environ["API_KEY"])
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['greet'])
 def reply(message):
   print(message)
   if message.from_user.username == 'andreposman':
@@ -58,19 +58,13 @@ def addPerformanceEmoji(performance):
 def formatMessage(message, data):
   performance = calculatePerformance(data)
   strPerformance = addPerformanceEmoji(performance)
+  specialMsg = ''
 
-  print("-----------------------------------------")
-  print("FORMATING MESSAGE")
-  print("-----------------------------------------")
+  if message.from_user.username == 'raafvargas':
+    specialMsg = ' seu trouxa'
 
   if data.info['quoteType'] == 'EQUITY':
-    print("-----------------------------------------")
-    print("IS A STOCK")
-    print("-----------------------------------------")
-
-
-
-    r = f"""Hey {message.from_user.first_name}, here is the data that I found for the company:\n\n*{data.info['longName']}*
+    r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the company:\n\n*{data.info['longName']}*
 ----------------------------------------------
 Sector:                 *{data.info['sector']}*
 Symbol:               *{data.info['symbol']}*
@@ -79,12 +73,7 @@ Performance:             *{strPerformance}*
 """
 
 
-  else:
-      print("-----------------------------------------")
-      print("IS AN ETF")
-      print("-----------------------------------------")
-
-
+  elif data.info['quoteType'] == 'ETF':
       r = f"""Hey {message.from_user.first_name}, here is the data that I found for the ETF:\n\n*{data.info['longName']}*
 ----------------------------------------------
 Symbol:               *{data.info['symbol']}*
@@ -93,6 +82,15 @@ Performance:               *{strPerformance}*
 """
 
 
+  elif data.info['quoteType'] == 'CRYPTOCURRENCY':
+      r = f"""Hey {message.from_user.first_name}, here is the data that I found for the ETF:\n\n*{data.info['shortName']}*
+----------------------------------------------
+Symbol:               *{data.info['symbol']}*
+Current Price:             *${data.info['regularMarketPrice']}*
+Performance:               *{strPerformance}*
+"""
+  
+
   return r
 
 
@@ -100,49 +98,80 @@ def extract_arg(arg):
   print(arg.split()[1:])
   return arg.split()[1:]
 
-def handleInput(data, message, stock):
+def handleInput(data):
   if data.info['regularMarketPrice'] == None:
     return True
 
 def handleETF(message, bot, data):
   if data.info['quoteType'] == 'ETF':
+    print("-----------------------------------------")
+    print("ETF")
+    print("-----------------------------------------")
+
     if data.info['regularMarketPrice'] != None:
       replyMsg = formatMessage(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
+    else:
+      replyMsg = '*Error fetching data*'
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
 
 def handleEquity(message, bot, data):
-    if data.info['quoteType'] == 'EQUITY':
-      if data.info['regularMarketPrice'] != None:
-        replyMsg = formatMessage(message, data)
-        bot.reply_to(message, replyMsg, parse_mode='Markdown')
+  if data.info['quoteType'] == 'EQUITY':
+    print("-----------------------------------------")
+    print("STOCK")
+    print("-----------------------------------------")
+
+    if data.info['regularMarketPrice'] != None:
+      replyMsg = formatMessage(message, data)
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
+    else:
+      replyMsg = '*Error fetching data*'
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
+
+def handleCrypto(message, bot, data):
+  if data.info['quoteType'] == 'CRYPTOCURRENCY':
+    print("-----------------------------------------")
+    print("CRYPTO")
+    print("-----------------------------------------")
+
+    if not handleInput(data):
+      replyMsg = formatMessage(message, data)
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
+    else:
+      replyMsg = '*Error fetching data*'
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
 
 def runBot(bot):
-  @bot.message_handler(commands=['stock'])
+  @bot.message_handler(commands=['fetch'])
   def get_stocks(message):
-    stocks = extract_arg(message.text)
-    if len(stocks) <=0:
+    securities = extract_arg(message.text)
+    
+    if len(securities) <=0:
       bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
 
-    for stock in stocks:
-      data = yf.Ticker(stock)
+
+    for s in securities:
+      data = yf.Ticker(s)
       print(data.info)
 
-      if handleInput(data, message, stock):
-        bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {stock}. 🤔")
+      if handleInput(data):
+        bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {s}. 🤔")
 
       else:
+        print('else, tem dado')
         handleETF(message, bot, data)
         handleEquity(message, bot, data)
+        handleCrypto(message, bot, data)
 
 
-  bot.polling()
+  bot.infinity_polling()
 
 def main():
     while True:
         try:
             runBot(bot)
-        except:
-            pass
+        except Exception(e):
+            print(e)
         else:
             break
 
