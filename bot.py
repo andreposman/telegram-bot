@@ -91,13 +91,12 @@ Performance:               *{strPerformance}*
 """
   
   elif data.info['quoteType'] == 'CURRENCY':
-      print('cheguei aqui')
       r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the FOREX:\n\n*{data.info['shortName']}*
 ----------------------------------------------
 Symbol:               *{data.info['symbol']}*
 Current Price:             *${data.info['regularMarketPrice']}*
+Performance:               *{strPerformance}*
 """
-# Performance:               *{strPerformance}*
 
   return r
 
@@ -180,7 +179,7 @@ def runBot(bot):
         bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {s}. 🤔")
 
       else:
-        print('else, tem dado')
+        print('in handlers block')
         handleETF(message, bot, data)
         handleEquity(message, bot, data)
         handleCrypto(message, bot, data)
