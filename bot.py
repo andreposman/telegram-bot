@@ -74,7 +74,7 @@ Performance:             *{strPerformance}*
 
 
   elif data.info['quoteType'] == 'ETF':
-      r = f"""Hey {message.from_user.first_name}, here is the data that I found for the ETF:\n\n*{data.info['longName']}*
+      r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the ETF:\n\n*{data.info['longName']}*
 ----------------------------------------------
 Symbol:               *{data.info['symbol']}*
 Current Price:             *${data.info['regularMarketPrice']}*
@@ -83,7 +83,7 @@ Performance:               *{strPerformance}*
 
 
   elif data.info['quoteType'] == 'CRYPTOCURRENCY':
-      r = f"""Hey {message.from_user.first_name}, here is the data that I found for the ETF:\n\n*{data.info['shortName']}*
+      r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the ETF:\n\n*{data.info['shortName']}*
 ----------------------------------------------
 Symbol:               *{data.info['symbol']}*
 Current Price:             *${data.info['regularMarketPrice']}*
