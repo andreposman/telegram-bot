@@ -26,7 +26,76 @@ def reply(message):
 
   else:
     bot.reply_to(message, f'Olá {message.from_user.first_name}, Vai Palmeiras!')
-  
+
+
+def calculatePerformance(data):
+  closePrice = data.info['regularMarketPreviousClose']
+  currentPrice = data.info['regularMarketPrice']
+  performance = round((((currentPrice - closePrice)/currentPrice)*100), 2)
+
+  return performance
+
+def addPerformanceEmoji(performance):
+  strPerformance = ''
+  emojiSuffix = ''
+
+  if performance < 0:
+    emojiSuffix = '🔻'
+    if performance < -10:
+      emojiSuffix = '⚰️'
+
+  elif performance > 0:
+    strPerformance = ' +'
+    emojiSuffix = '👍'
+    if performance > 10: 
+      emojiSuffix = '🚀💰'
+
+  strPerformance = strPerformance + str(performance) + '% ' + emojiSuffix
+  print(strPerformance)
+
+  return strPerformance
+
+def formatMessage(message, data):
+  performance = calculatePerformance(data)
+  strPerformance = addPerformanceEmoji(performance)
+
+  print("-----------------------------------------")
+  print("FORMATING MESSAGE")
+  print("-----------------------------------------")
+
+  if data.info['quoteType'] == 'EQUITY':
+    print("-----------------------------------------")
+    print("IS A STOCK")
+    print("-----------------------------------------")
+
+
+
+    r = f"""Hey {message.from_user.first_name}, here is the data that I found for the company:\n\n*{data.info['longName']}*
+----------------------------------------------
+Sector:                 *{data.info['sector']}*
+Symbol:               *{data.info['symbol']}*
+Current Price:             *${data.info['regularMarketPrice']}*
+Performance:             *{strPerformance}*
+"""
+
+
+  else:
+      print("-----------------------------------------")
+      print("IS AN ETF")
+      print("-----------------------------------------")
+
+
+      r = f"""Hey {message.from_user.first_name}, here is the data that I found for the ETF:\n\n*{data.info['longName']}*
+----------------------------------------------
+Symbol:               *{data.info['symbol']}*
+Current Price:             *${data.info['regularMarketPrice']}*
+Performance:               *{strPerformance}*
+"""
+
+
+  return r
+
+
 def extract_arg(arg):
   print(arg.split()[1:])
   return arg.split()[1:]
@@ -38,16 +107,14 @@ def handleInput(data, message, stock):
 def handleETF(message, bot, data):
   if data.info['quoteType'] == 'ETF':
     if data.info['regularMarketPrice'] != None:
-      replyMsg = f"Hey {message.from_user.first_name}, {data.info['symbol']} current price is ${data.info['regularMarketPrice']}"
-      bot.reply_to(message, replyMsg)
+      replyMsg = formatMessage(message, data)
+      bot.reply_to(message, replyMsg, parse_mode='Markdown')
 
 def handleEquity(message, bot, data):
     if data.info['quoteType'] == 'EQUITY':
       if data.info['regularMarketPrice'] != None:
-        print(json.dumps(data.info))
-        price = data.info['currentPrice']
-        replyMsg = f"Hey {message.from_user.first_name}, {data.info['symbol']} current price is ${price}. 💵"
-        bot.reply_to(message, replyMsg)
+        replyMsg = formatMessage(message, data)
+        bot.reply_to(message, replyMsg, parse_mode='Markdown')
 
 def runBot(bot):
   @bot.message_handler(commands=['stock'])
