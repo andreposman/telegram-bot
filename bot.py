@@ -12,7 +12,7 @@ load_dotenv(dotenv_path=env_path)
 bot = telebot.TeleBot(os.environ["API_KEY"])
 
 @bot.message_handler(commands=['greet'])
-def reply(message):
+def greet_command(message):
   print(message)
   if message.from_user.username == 'andreposman':
     bot.reply_to(message, 'Oi Mestre, Vai Palmeiras!')
@@ -27,21 +27,20 @@ def reply(message):
     bot.reply_to(message, f'Olá {message.from_user.first_name} 👋')
 
 @bot.message_handler(commands=['help'])
-def helpCommand(message):
+def help_command(message):
   helpMsg = """
   Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
-
   `/greet`: I will say Hi to you
-
   `/fetch`: This is where the magic happens, I will fetch US Market data for the ticker/symbol that you send me. 
     For example:
+    
       `/fetch` AAPL - will make me fetch data for Apple stock
       `/fetch` VT - will make me fetch data for the ETF
       `/fetch` BTC-USD - will make me fetch data for Bitcoin
       `/fetch` USDBRL=X - will make me fetch data for the currency pair USD/BRL    
 
   """
-  bot.reply_to(message, helpMsg)
+  bot.reply_to(message, helpMsg, parse_mode='Markdown')
 
 
 
@@ -181,7 +180,7 @@ def handleCurrency(message, bot, data):
 
 def runBot(bot):
   @bot.message_handler(commands=['fetch'])
-  def get_stocks(message):
+  def fetch_command(message):
     securities = extract_arg(message.text)
     
     if len(securities) <=0:
@@ -206,6 +205,16 @@ def runBot(bot):
 
   bot.infinity_polling()
 
+def stop_bot():
+  env = os.environ["ENV"]
+  if env == 'dev':
+    print("DEV ENVIRONMENT - go crazy")
+    return True
+  elif env == 'prod':
+    print("PROD ENVIRONMENT - be careful")
+    return False
+
+
 def main():
     while True:
         try:
@@ -213,7 +222,9 @@ def main():
         except Exception(e):
             print(e)
         else:
-            break
+            if stop_bot():
+              break
+            
 
 if __name__ == "__main__":
   main()
