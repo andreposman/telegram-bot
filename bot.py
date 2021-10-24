@@ -37,7 +37,7 @@ def help_command(message):
       /fetch AAPL - will make me fetch data for Apple stock
       /fetch VT - will make me fetch data for the ETF VT
       /fetch BTC-USD - will make me fetch data for Bitcoin
-      /fetch USDBRL=X - will make me fetch data for the currency pair USD/BRL    
+      /fetch USDBRL=X - will make me fetch data for the forex pair USD/BRL    
 
   """
   bot.reply_to(message, helpMsg, parse_mode='Markdown')
