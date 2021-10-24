@@ -15,13 +15,13 @@ bot = telebot.TeleBot(os.environ["API_KEY"])
 def greet_command(message):
   print(message)
   if message.from_user.username == 'andreposman':
-    bot.reply_to(message, 'Oi Mestre, Vai Palmeiras!')
+    bot.reply_to(message, 'Olá Mestre, Vai Palmeiras!')
 
   elif message.from_user.username == 'raafvargas':
-    bot.reply_to(message, f'Eai {message.from_user.first_name}, Spec em PHP!')
+    bot.reply_to(message, f'👋 {message.from_user.first_name}, Spec em PHP!')
 
   elif message.from_user.first_name == 'Matheus Luis':
-    bot.reply_to(message, f'Eai {message.from_user.first_name}, Rei do Spring!')
+    bot.reply_to(message, f'👋 {message.from_user.first_name}, Rei do Spring!')
 
   else:
     bot.reply_to(message, f'Olá {message.from_user.first_name} 👋')
