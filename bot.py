@@ -28,6 +28,7 @@ def greet_command(message):
 
 @bot.message_handler(commands=['help'])
 def help_command(message):
+  print(message)
   helpMsg = f"""
   Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
 
@@ -208,6 +209,7 @@ def run_bot(bot):
 
 @bot.message_handler(commands=['fetch'])
 def stop_bot(message):
+  print(message)
   env = os.environ["ENV"]
   if env == 'dev' and message.from_user.username == 'andreposman':
     bot.reply_to(message, "DEV ENVIRONMENT - Go Crazy")
@@ -221,10 +223,10 @@ def main():
     while True:
         try:
             run_bot(bot)
-            stop_bot(bot)
         except Exception(e):
             print(e)
         else:
+              stop_bot(bot)
               break
             
 
