@@ -30,14 +30,14 @@ def greet_command(message):
 def help_command(message):
   helpMsg = """
   Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
-  `/greet`: I will say Hi to you
-  `/fetch`: This is where the magic happens, I will fetch US Market data for the ticker/symbol that you send me. 
-    For example:
+  /greet: I will say Hi to you
+  /fetch: This is where the magic happens, I will fetch US Market data for the ticker/symbol that you send me. 
+    For example:\n
     
-      `/fetch` AAPL - will make me fetch data for Apple stock
-      `/fetch` VT - will make me fetch data for the ETF
-      `/fetch` BTC-USD - will make me fetch data for Bitcoin
-      `/fetch` USDBRL=X - will make me fetch data for the currency pair USD/BRL    
+      /fetch AAPL - will make me fetch data for Apple stock
+      /fetch VT - will make me fetch data for the ETF VT
+      /fetch BTC-USD - will make me fetch data for Bitcoin
+      /fetch USDBRL=X - will make me fetch data for the currency pair USD/BRL    
 
   """
   bot.reply_to(message, helpMsg, parse_mode='Markdown')
@@ -209,10 +209,10 @@ def stop_bot():
   env = os.environ["ENV"]
   if env == 'dev':
     print("DEV ENVIRONMENT - go crazy")
-    return True
+    return False
   elif env == 'prod':
     print("PROD ENVIRONMENT - be careful")
-    return False
+    return True
 
 
 def main():
@@ -223,6 +223,7 @@ def main():
             print(e)
         else:
             if stop_bot():
+              print("PROD ENVIRONMENT - be careful")
               break
             
 
