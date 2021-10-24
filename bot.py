@@ -28,7 +28,7 @@ def greet_command(message):
 
 @bot.message_handler(commands=['help'])
 def help_command(message):
-  helpMsg = """
+  helpMsg = f"""
   Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
   /greet: I will say Hi to you
   /fetch: This is where the magic happens, I will fetch US Market data for the ticker/symbol that you send me. 
