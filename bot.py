@@ -34,7 +34,7 @@ def help_command(message):
 
   /greet: I will say Hi to you
   /fetch: This is where the magic happens, 
-    I will fetch US Market data for the ticker/symbol that you send me. For example:
+    I will fetch USA Market data for the ticker/symbol that you send me:
     
       /fetch AAPL - will make me fetch data for Apple stock
       /fetch VT - will make me fetch data for the ETF VT
