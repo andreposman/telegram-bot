@@ -9,23 +9,40 @@ from pathlib import Path
 
 env_path = Path('.env')
 load_dotenv(dotenv_path=env_path)
-
 bot = telebot.TeleBot(os.environ["API_KEY"])
 
 @bot.message_handler(commands=['greet'])
 def reply(message):
   print(message)
   if message.from_user.username == 'andreposman':
-    bot.reply_to(message, 'Oi Mestre, Avanti Palestra!')
+    bot.reply_to(message, 'Oi Mestre, Vai Palmeiras!')
 
   elif message.from_user.username == 'raafvargas':
     bot.reply_to(message, f'Eai {message.from_user.first_name}, Spec em PHP!')
 
-  elif message.from_user.first_name == 'Matheus':
+  elif message.from_user.first_name == 'Matheus Luis':
     bot.reply_to(message, f'Eai {message.from_user.first_name}, Rei do Spring!')
 
   else:
-    bot.reply_to(message, f'Olá {message.from_user.first_name}, Vai Palmeiras!')
+    bot.reply_to(message, f'Olá {message.from_user.first_name} 👋')
+
+@bot.message_handler(commands=['help'])
+def helpCommand(message):
+  helpMsg = """
+  Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
+
+  `/greet`: I will say Hi to you
+
+  `/fetch`: This is where the magic happens, I will fetch US Market data for the ticker/symbol that you send me. 
+    For example:
+      `/fetch` AAPL - will make me fetch data for Apple stock
+      `/fetch` VT - will make me fetch data for the ETF
+      `/fetch` BTC-USD - will make me fetch data for Bitcoin
+      `/fetch` USDBRL=X - will make me fetch data for the currency pair USD/BRL    
+
+  """
+  bot.reply_to(message, helpMsg)
+
 
 
 def calculatePerformance(data):
