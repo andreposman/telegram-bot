@@ -30,9 +30,10 @@ def greet_command(message):
 def help_command(message):
   helpMsg = f"""
   Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
+
   /greet: I will say Hi to you
-  /fetch: This is where the magic happens, I will fetch US Market data for the ticker/symbol that you send me. 
-    For example:\n
+  /fetch: This is where the magic happens, 
+    I will fetch US Market data for the ticker/symbol that you send me. For example:
     
       /fetch AAPL - will make me fetch data for Apple stock
       /fetch VT - will make me fetch data for the ETF VT
@@ -178,7 +179,7 @@ def handleCurrency(message, bot, data):
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
 
 
-def runBot(bot):
+def run_bot(bot):
   @bot.message_handler(commands=['fetch'])
   def fetch_command(message):
     securities = extract_arg(message.text)
@@ -205,25 +206,25 @@ def runBot(bot):
 
   bot.infinity_polling()
 
-def stop_bot():
+@bot.message_handler(commands=['fetch'])
+def stop_bot(message):
   env = os.environ["ENV"]
-  if env == 'dev':
-    print("DEV ENVIRONMENT - go crazy")
+  if env == 'dev' and message.from_user.username == 'andreposman':
+    bot.reply_to(message, "DEV ENVIRONMENT - Go Crazy")
     return False
-  elif env == 'prod':
-    print("PROD ENVIRONMENT - be careful")
+  elif env == 'prod' and message.from_user.username == 'andreposman':
+    bot.reply_to(message, "Be Careful - PROD ENVIRONMENT")
     return True
 
 
 def main():
     while True:
         try:
-            runBot(bot)
+            run_bot(bot)
+            stop_bot(bot)
         except Exception(e):
             print(e)
         else:
-            if stop_bot():
-              print("PROD ENVIRONMENT - be careful")
               break
             
 
