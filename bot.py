@@ -136,7 +136,7 @@ def handleETF(message, bot, data):
     print("-----------------------------------------")
 
     if data.info['regularMarketPrice'] != None:
-      replyMsg = util.messages.market_data(message, data)
+      replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
       replyMsg = '*Error fetching data*'
@@ -149,7 +149,7 @@ def handleEquity(message, bot, data):
     print("-----------------------------------------")
 
     if data.info['regularMarketPrice'] != None:
-      replyMsg = util.messages.market_data(message, data)
+      replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
       replyMsg = '*Error fetching data*'
@@ -162,7 +162,7 @@ def handleCrypto(message, bot, data):
     print("-----------------------------------------")
 
     if not handleInput(data):
-      replyMsg = util.messages.market_data(message, data)
+      replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
       replyMsg = '*Error fetching data*'
@@ -175,7 +175,7 @@ def handleCurrency(message, bot, data):
     print("-----------------------------------------")
 
     if not handleInput(data):
-      replyMsg = util.messages.market_data(message, data)
+      replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
       replyMsg = '*Error fetching data*'
