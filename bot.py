@@ -133,7 +133,7 @@ def run_bot(bot):
     except Exception(e):
             print(e)
             if message.from_user.username == 'andreposman':
-              bot.reply_to(message, 'Olá Mestre, Vai Palmeiras!')
+              bot.reply_to(message, f'Error: {e}')
 
 
   bot.infinity_polling()
