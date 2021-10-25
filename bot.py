@@ -4,7 +4,7 @@ import telebot
 import logging
 import json
 import yfinance as yf
-import util.messages
+import utils.messages
 from dotenv import load_dotenv
 from pathlib import Path
 

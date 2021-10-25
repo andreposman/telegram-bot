@@ -1,8 +1,8 @@
-import bot
+import calculate
 
 def market_data(message, data):
-  performance =  bot.calculatePerformance(data)
-  strPerformance = bot.addPerformanceEmoji(performance)
+  performance =  calculate.one_day_performance(data)
+  strPerformance = addPerformanceEmoji(performance)
   specialMsg = ''
 
   if message.from_user.username == 'raafvargas':
@@ -44,3 +44,27 @@ Performance:               *{strPerformance}*
 """
 
   return r
+
+
+
+
+
+def addPerformanceEmoji(performance):
+  strPerformance = ''
+  emojiSuffix = ''
+
+  if performance < 0:
+    emojiSuffix = '🔻'
+    if performance < -10:
+      emojiSuffix = '⚰️'
+
+  elif performance > 0:
+    strPerformance = ' +'
+    emojiSuffix = '👍'
+    if performance > 10: 
+      emojiSuffix = '🚀💰'
+
+  strPerformance = strPerformance + str(performance) + '% ' + emojiSuffix
+  print(strPerformance)
+
+  return strPerformance
