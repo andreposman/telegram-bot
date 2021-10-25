@@ -110,7 +110,7 @@ def handleCurrency(message, bot, data):
 def run_bot(bot):
   @bot.message_handler(commands=['fetch'])
   def fetch_command(message):
-    try:
+    # try:
       asset = extract_arg(message.text)
       if len(asset) <=0:
         bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
@@ -130,10 +130,10 @@ def run_bot(bot):
           handleCurrency(message, bot, data)
           securities.handle_others(message, bot, data)
 
-    except Exception(e):
-            print(e)
-            if message.from_user.username == 'andreposman':
-              bot.reply_to(message, f'Error: {e}')
+    # except Exception(e):
+    #         print(e)
+    #         if message.from_user.username == 'andreposman':
+    #           bot.reply_to(message, f'Error: {e}')
 
 
   bot.infinity_polling()
