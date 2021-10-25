@@ -21,15 +21,18 @@ def helper(bot):
     helpMsg = f"""
     Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
 
-    /greet: I will say Hi to you
-    /fetch: This is where the magic happens, 
-      I will fetch USA Market data for the ticker that you send me:
+    /greet: I will say Hi to you.
+    /fetch: This is where the magic happens, I will fetch USA Market data for the ticker that you send me.
 
+    Examples: 
         /fetch AAPL - fetch data for Apple stock
         /fetch VT - fetch data for the ETF VT
         /fetch BTC-USD - fetch data for Bitcoin
         /fetch USDBRL=X - fetch data for the FOREX pair USD/BRL    
-
+        /fetch CL=F - fetch data from the future market, in this case is Crude Oil
+        
+        You can also fetch mutiple assets in one line:
+        /fetch aapl vt btc-usd usdbrl=x cl=f
     """
     bot.reply_to(message, helpMsg, parse_mode='Markdown')
 
