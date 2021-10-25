@@ -34,7 +34,7 @@ def help_command(message):
 
   /greet: I will say Hi to you
   /fetch: This is where the magic happens, 
-    I will fetch USA Market data for the ticker/symbol that you send me:
+    I will fetch USA Market data for the ticker that you send me:
     
       /fetch AAPL - will make me fetch data for Apple stock
       /fetch VT - will make me fetch data for the ETF VT
@@ -207,7 +207,7 @@ def run_bot(bot):
 
   bot.infinity_polling()
 
-@bot.message_handler(commands=['fetch'])
+@bot.message_handler(commands=['stop'])
 def stop_bot(message):
   print(message)
   env = os.environ["ENV"]
