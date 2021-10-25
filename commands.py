@@ -14,7 +14,7 @@ def stop_bot(bot, env):
       bot.reply_to(message, "`DEU RUIM`", parse_mode='Markdown')
 
 
-def help_bot(bot):
+def helper(bot):
   @bot.message_handler(commands=['help'])
   def help_command(message):
     print(message)
@@ -33,3 +33,19 @@ def help_bot(bot):
     """
     bot.reply_to(message, helpMsg, parse_mode='Markdown')
 
+
+def greet(bot):
+  @bot.message_handler(commands=['greet'])
+  def greet_command(message):
+    print(message)
+    if message.from_user.username == 'andreposman':
+      bot.reply_to(message, 'Olá Mestre, Vai Palmeiras!')
+
+    elif message.from_user.username == 'raafvargas':
+      bot.reply_to(message, f'👋 {message.from_user.first_name}, Spec em PHP!')
+
+    elif message.from_user.first_name == 'Matheus Luis':
+      bot.reply_to(message, f'👋 {message.from_user.first_name}, Rei do Spring!')
+
+    else:
+      bot.reply_to(message, f'Olá {message.from_user.first_name} 👋')
