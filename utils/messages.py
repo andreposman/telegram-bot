@@ -1,8 +1,8 @@
-import calculate
+import utils.calculate
 
 def market_data(message, data):
-  performance =  calculate.one_day_performance(data)
-  strPerformance = addPerformanceEmoji(performance)
+  performance =  utils.calculate.one_day_performance(data)
+  strPerformance = add_performance_emoji(performance)
   specialMsg = ''
 
   if message.from_user.username == 'raafvargas':
@@ -49,7 +49,7 @@ Performance:               *{strPerformance}*
 
 
 
-def addPerformanceEmoji(performance):
+def add_performance_emoji(performance):
   strPerformance = ''
   emojiSuffix = ''
 
