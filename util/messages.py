@@ -1,6 +1,8 @@
+import bot
+
 def market_data(message, data):
-  performance = calculatePerformance(data)
-  strPerformance = addPerformanceEmoji(performance)
+  performance =  bot.calculatePerformance(data)
+  strPerformance = bot.addPerformanceEmoji(performance)
   specialMsg = ''
 
   if message.from_user.username == 'raafvargas':
