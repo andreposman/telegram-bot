@@ -47,6 +47,9 @@ Performance:               *{strPerformance}*
 
 
 def others(message, data):
+  performance =  utils.calculate.one_day_performance(data)
+  strPerformance = add_performance_emoji(performance)
+  specialMsg = ' '
   quoteType = data.info['quoteType']
 
   if data.info['shortName'] == None or data.info['shortName'] == '':
