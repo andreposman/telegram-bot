@@ -35,11 +35,11 @@ def help_command(message):
   /greet: I will say Hi to you
   /fetch: This is where the magic happens, 
     I will fetch USA Market data for the ticker that you send me:
-    
-      /fetch AAPL - will make me fetch data for Apple stock
-      /fetch VT - will make me fetch data for the ETF VT
-      /fetch BTC-USD - will make me fetch data for Bitcoin
-      /fetch USDBRL=X - will make me fetch data for the forex pair USD/BRL    
+
+      /fetch AAPL - fetch data for Apple stock
+      /fetch VT - fetch data for the ETF VT
+      /fetch BTC-USD - fetch data for Bitcoin
+      /fetch USDBRL=X - fetch data for the FOREX pair USD/BRL    
 
   """
   bot.reply_to(message, helpMsg, parse_mode='Markdown')
