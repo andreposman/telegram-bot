@@ -3,7 +3,7 @@ import utils.calculate
 def market_data(message, data):
   performance =  utils.calculate.one_day_performance(data)
   strPerformance = add_performance_emoji(performance)
-  specialMsg = ''
+  specialMsg = ' '
 
   if message.from_user.username == 'raafvargas':
     specialMsg = ' seu trouxa'
@@ -36,7 +36,7 @@ Performance:               *{strPerformance}*
 """
   
   elif data.info['quoteType'] == 'CURRENCY':
-      r = f"""Hey {message.from_user.first_name} from module {specialMsg}, here is the data that I found for the FOREX:\n\n*{data.info['shortName']}*
+      r = f"""Hey {message.from_user.first_name}{specialMsg}, here is the data that I found for the FOREX:\n\n*{data.info['shortName']}*
 ----------------------------------------------
 Symbol:               *{data.info['symbol']}*
 Current Price:             *${data.info['regularMarketPrice']}*
@@ -46,7 +46,24 @@ Performance:               *{strPerformance}*
   return r
 
 
+def others(message, data):
+  quoteType = data.info['quoteType']
 
+  if data.info['shortName'] == None or data.info['shortName'] == '':
+    data.info['shortName'] = data.info['symbol']
+  elif data.info['regularMarketPrice'] == None or data.info['regularMarketPrice'] == '':
+    data.info['regularMarketPrice'] = 'Price error'
+  elif strPerformance == None or strPerformance== '':
+    strPerformance = 'Performance error'
+    
+  r = f"""Hey {message.from_user.first_name}{specialMsg}, here is the data that I found for the {quoteType}:\n\n*{data.info['shortName']}*
+----------------------------------------------
+Symbol:               *{data.info['symbol']}*
+Current Price:             *${data.info['regularMarketPrice']}*
+Performance:               *{strPerformance}*
+"""
+
+  return r
 
 
 def add_performance_emoji(performance):
