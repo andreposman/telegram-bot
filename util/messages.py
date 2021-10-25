@@ -1,4 +1,4 @@
-def message(message, data):
+def market_data(message, data):
   performance = calculatePerformance(data)
   strPerformance = addPerformanceEmoji(performance)
   specialMsg = ''
