@@ -6,6 +6,7 @@ import json
 import yfinance as yf
 from dotenv import load_dotenv
 from pathlib import Path
+import formatter
 
 env_path = Path('.env')
 load_dotenv(dotenv_path=env_path)
@@ -108,13 +109,13 @@ Current Price:             *${data.info['regularMarketPrice']}*
 Performance:               *{strPerformance}*
 """
   
-  elif data.info['quoteType'] == 'CURRENCY':
-      r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the FOREX:\n\n*{data.info['shortName']}*
-----------------------------------------------
-Symbol:               *{data.info['symbol']}*
-Current Price:             *${data.info['regularMarketPrice']}*
-Performance:               *{strPerformance}*
-"""
+#   elif data.info['quoteType'] == 'CURRENCY':
+#       r = f"""Hey {message.from_user.first_name} {specialMsg}, here is the data that I found for the FOREX:\n\n*{data.info['shortName']}*
+# ----------------------------------------------
+# Symbol:               *{data.info['symbol']}*
+# Current Price:             *${data.info['regularMarketPrice']}*
+# Performance:               *{strPerformance}*
+# """
 
   return r
 
@@ -173,7 +174,7 @@ def handleCurrency(message, bot, data):
     print("-----------------------------------------")
 
     if not handleInput(data):
-      replyMsg = formatMessage(message, data)
+      replyMsg = formatter.message(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
       replyMsg = '*Error fetching data*'
@@ -215,7 +216,7 @@ def stop_bot(message):
     bot.reply_to(message, "DEV ENVIRONMENT - Go Crazy")
     return False
   elif env == 'prod' and message.from_user.username == 'andreposman':
-    bot.reply_to(message, "Be Careful - PROD ENVIRONMENT")
+    bot.reply_to(message, "`Be Careful - PROD ENVIRONMENT`")
     return True
 
 
