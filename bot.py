@@ -4,7 +4,7 @@ import telebot
 import logging
 import json
 import yfinance as yf
-import messages
+import util.messages
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -174,7 +174,7 @@ def handleCurrency(message, bot, data):
     print("-----------------------------------------")
 
     if not handleInput(data):
-      replyMsg = messages.market_data(message, data)
+      replyMsg = util.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
       replyMsg = '*Error fetching data*'
