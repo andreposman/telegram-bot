@@ -141,7 +141,7 @@ def main():
         except Exception(e):
             print(e)
         else:
-            commands.stop_bot(message, bot, os.environ["ENV"])
+            commands.stop_bot(bot, os.environ["ENV"])
             break
             
 
