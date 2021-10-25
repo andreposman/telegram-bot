@@ -8,7 +8,7 @@ def handle_others(message, bot, data):
     print(quoteType)
     print("-----------------------------------------")
 
-    if not handleInput(data):
+    if utils.validate.data_has_price(data):
       replyMsg = utils.messages.others(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
