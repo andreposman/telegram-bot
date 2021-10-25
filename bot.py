@@ -112,7 +112,6 @@ def run_bot(bot):
   def fetch_command(message):
     try:
       asset = extract_arg(message.text)
-      
       if len(asset) <=0:
         bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
 
@@ -136,7 +135,7 @@ def run_bot(bot):
       if message.from_user.username == 'andreposman':
         bot.reply_to(message, f'Error: {e}')
     
-    
+
     bot.infinity_polling()
   
 
