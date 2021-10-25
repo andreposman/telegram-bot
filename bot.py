@@ -143,6 +143,7 @@ def main():
     while True:
         try:
             run_bot(bot)
+            commands.help_bot(bot)
         except Exception(e):
             print(e)
         else:

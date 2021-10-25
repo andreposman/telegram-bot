@@ -43,6 +43,7 @@ Current Price:             *${data.info['regularMarketPrice']}*
 Performance:               *{strPerformance}*
 """
 
+  print(r)
   return r
 
 
@@ -59,13 +60,13 @@ def others(message, data):
   elif strPerformance == None or strPerformance== '':
     strPerformance = 'Performance error'
     
-  r = f"""Hey {message.from_user.first_name}{specialMsg}, here is the data that I found for the {quoteType}:\n\n*{data.info['shortName']}*
+  r = f"""Hey {message.from_user.first_name}{specialMsg}, here is the data that I found for:\n\n*{data.info['shortName']}*
 ----------------------------------------------
 Symbol:               *{data.info['symbol']}*
 Current Price:             *${data.info['regularMarketPrice']}*
 Performance:               *{strPerformance}*
 """
-
+  print(r)
   return r
 
 
@@ -85,6 +86,5 @@ def add_performance_emoji(performance):
       emojiSuffix = '🚀💰'
 
   strPerformance = strPerformance + str(performance) + '% ' + emojiSuffix
-  print(strPerformance)
 
   return strPerformance
