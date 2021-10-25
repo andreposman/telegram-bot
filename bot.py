@@ -108,6 +108,9 @@ def handleCurrency(message, bot, data):
 
 
 def run_bot(bot):
+  commands.helper(bot)
+  commands.greet(bot)
+  
   @bot.message_handler(commands=['fetch'])
   def fetch_command(message):
     # try:
@@ -143,8 +146,6 @@ def main():
     while True:
         try:
             run_bot(bot)
-            commands.helper(bot)
-            commands.greet(bot)
         except Exception as e:
             print(e)
             if message.from_user.username == 'andreposman':
