@@ -110,13 +110,13 @@ def handleCurrency(message, bot, data):
 def run_bot(bot):
   @bot.message_handler(commands=['fetch'])
   def fetch_command(message):
-    securities = extract_arg(message.text)
+    asset = extract_arg(message.text)
     
-    if len(securities) <=0:
+    if len(sec) <=0:
       bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
 
-    for s in securities:
-      data = yf.Ticker(s)
+    for a in asset:
+      data = yf.Ticker(a)
       print(data.info)
 
       if utils.validate.data_has_price(data):
@@ -141,8 +141,8 @@ def main():
         except Exception(e):
             print(e)
         else:
-              commands.stop_bot(bot, os.environ["ENV"])
-              break
+            commands.stop_bot(message, bot, os.environ["ENV"])
+            break
             
 
 if __name__ == "__main__":
