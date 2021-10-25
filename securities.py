@@ -1,5 +1,6 @@
 import utils.calculate
 import utils.messages
+import bot
 
 def handle_others(message, bot, data):
   if data.info['quoteType'] != 'CURRENCY' and data.info['quoteType'] != 'ETF' and data.info['quoteType'] != 'EQUITY' and data.info['quoteType'] != 'CRYPTOCURRENCY':
@@ -9,7 +10,7 @@ def handle_others(message, bot, data):
     print("-----------------------------------------")
 
     if not handleInput(data):
-      replyMsg = utils.messages.others(message, data)
+      replyMsg = bot.utils.messages.others(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
       replyMsg = '*Error fetching data*'

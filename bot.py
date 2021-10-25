@@ -5,6 +5,8 @@ import logging
 import json
 import yfinance as yf
 import securities
+import commands
+import utils.validate
 import utils.messages
 import utils.calculate
 from dotenv import load_dotenv
@@ -52,17 +54,13 @@ def extract_arg(arg):
   print(arg.split()[1:])
   return arg.split()[1:]
 
-def handleInput(data):
-  if data.info['regularMarketPrice'] == None:
-    return True
-
 def handleETF(message, bot, data):
   if data.info['quoteType'] == 'ETF':
     print("-----------------------------------------")
     print("ETF")
     print("-----------------------------------------")
 
-    if data.info['regularMarketPrice'] != None:
+    if not utils.validate.data_has_price(data):
       replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
@@ -75,7 +73,7 @@ def handleEquity(message, bot, data):
     print("STOCK")
     print("-----------------------------------------")
 
-    if data.info['regularMarketPrice'] != None:
+    if not utils.validate.data_has_price(data):
       replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
@@ -88,7 +86,7 @@ def handleCrypto(message, bot, data):
     print("CRYPTO")
     print("-----------------------------------------")
 
-    if not handleInput(data):
+    if not utils.validate.data_has_price(data):
       replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
@@ -101,7 +99,7 @@ def handleCurrency(message, bot, data):
     print("CURRENCY")
     print("-----------------------------------------")
 
-    if not handleInput(data):
+    if not utils.validate.data_has_price(data):
       replyMsg = utils.messages.market_data(message, data)
       bot.reply_to(message, replyMsg, parse_mode='Markdown')
     else:
@@ -117,12 +115,11 @@ def run_bot(bot):
     if len(securities) <=0:
       bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
 
-
     for s in securities:
       data = yf.Ticker(s)
       print(data.info)
 
-      if handleInput(data):
+      if utils.validate.data_has_price(data):
         bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {s}. 🤔")
 
       else:
@@ -137,18 +134,6 @@ def run_bot(bot):
 
   bot.infinity_polling()
 
-@bot.message_handler(commands=['stop'])
-def stop_bot(message):
-  print(message)
-  env = os.environ["ENV"]
-  if env == 'dev' and message.from_user.username == 'andreposman':
-    bot.reply_to(message, "DEV ENVIRONMENT - Go Crazy")
-    return False
-  elif env == 'prod' and message.from_user.username == 'andreposman':
-    bot.reply_to(message, "`Be Careful - PROD ENVIRONMENT`")
-    return True
-
-
 def main():
     while True:
         try:
@@ -156,7 +141,7 @@ def main():
         except Exception(e):
             print(e)
         else:
-              stop_bot(bot)
+              commands.stop_bot(bot, os.environ["ENV"])
               break
             
 
