@@ -110,33 +110,26 @@ def handleCurrency(message, bot, data):
 def run_bot(bot):
   @bot.message_handler(commands=['fetch'])
   def fetch_command(message):
-    try:
-      asset = extract_arg(message.text)
-      if len(asset) <=0:
-        bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
+    asset = extract_arg(message.text)
+    if len(asset) <=0:
+      bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
 
-      for a in asset:
-        data = yf.Ticker(a)
-        print(data.info)
+    for a in asset:
+      data = yf.Ticker(a)
+      print(data.info)
 
-        if utils.validate.data_has_price(data):
-          bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {s}. 🤔")
+      if utils.validate.data_has_price(data):
+        bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {s}. 🤔")
 
-        else:
-          print('in handlers block')
-          handleETF(message, bot, data)
-          handleEquity(message, bot, data)
-          handleCrypto(message, bot, data)
-          handleCurrency(message, bot, data)
-          securities.handle_others(message, bot, data)
+      else:
+        print('in handlers block')
+        handleETF(message, bot, data)
+        handleEquity(message, bot, data)
+        handleCrypto(message, bot, data)
+        handleCurrency(message, bot, data)
+        securities.handle_others(message, bot, data)
 
-    except Exception(e):
-      print(e)
-      if message.from_user.username == 'andreposman':
-        bot.reply_to(message, f'Error: {e}')
-    
-
-    bot.infinity_polling()
+  bot.infinity_polling()
   
 
 def main():
