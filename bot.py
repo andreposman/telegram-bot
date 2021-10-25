@@ -112,7 +112,7 @@ def run_bot(bot):
   def fetch_command(message):
     asset = extract_arg(message.text)
     
-    if len(sec) <=0:
+    if len(asset) <=0:
       bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
 
     for a in asset:
