@@ -7,7 +7,7 @@ def format_asset(message, data):
   specialMsg = ' '
   name_output = ''
 
-  format_data_output(data, performance_output)
+  format_data_output(data, performance_output, name_output)
     
   r = f'''{message.from_user.first_name}{specialMsg}, here it is:\n*{name_output}*
   \n\n
