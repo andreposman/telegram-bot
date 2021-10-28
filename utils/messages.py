@@ -41,7 +41,7 @@ def add_performance_emoji(performance):
 
   return performance_string
 
-def format_data_output(data, performance_output, name_output):
+def format_data_output(data, performance_output, name_output,):
   if data.info['longName'] == None or data.info['longName'] == '':
     name_output = data.info['shortName']
   
@@ -55,5 +55,5 @@ def format_data_output(data, performance_output, name_output):
     performance_output = 'Performance error'
   
   elif data.info['quoteType'] != 'INDEX':
-    '$' + data.info['regularMarketPrice']
+    '$' + performance_output
   
