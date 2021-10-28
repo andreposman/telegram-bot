@@ -1,56 +1,69 @@
+import logging
 import telebot
 import securities
 import yfinance as yf
-import utils.validate
 import utils.messages
 import utils.calculate
 
 def stop_bot(bot, env):
   @bot.message_handler(commands=['stop'])
   def command_stop_bot(message):
-    print(message)
+
+    logging.info(f'{message.from_user.username}, sent the /stop command to the bot.')
+    logging.info(f'User Data: \n{message}')
+
     if env == 'dev' and message.from_user.username == 'andreposman':
-      bot.reply_to(message, "DEV ENVIRONMENT - Go Crazy", parse_mode='Markdown')
+      bot.reply_to(message, 'DEV ENVIRONMENT - Go Crazy', parse_mode='Markdown')
       return False
     elif env == 'prod' and message.from_user.username == 'andreposman':
-      bot.reply_to(message, "`Be Careful - PROD ENVIRONMENT`", parse_mode='Markdown')
+      bot.reply_to(message, 'Be Careful - PROD ENVIRONMENT', parse_mode='Markdown')
       return True
     else:
-      bot.reply_to(message, "`DEU RUIM`", parse_mode='Markdown')
+      logging.error('an error ocurred on the command_stop_bot function.')
+      bot.reply_to(message, 'an error ocurred on the command_stop_bot function.', parse_mode='Markdown')
 
 def fetch_bot(bot):
     @bot.message_handler(commands=['fetch'])
     def fetch_command(message):
 
+      logging.info(f'{message.from_user.username}, sent the /fetch command to the bot.')
+      logging.info(f'User Data: \n{message}')
+
       asset = extract_user_input(message.text)
 
       if validate_user_input(asset):
-        bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
+        logging.info(f'{message.from_user.username}. User sent an empty command: {asset}')
+        bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me a ticker. 🙄")
 
-      
+
       for a in asset:
         data = yf.Ticker(a)
-        print(data.info)
+        logging.info(f'Data found was: \n{data}')
 
         if is_asset_valid(data):
-          print('in handlers block')
           securities.handle_assets(message, bot, data)
 
         else:
+          logging.info(f'{message.from_user.username}. No data available found for: {a}')
           bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {a}. 🤔")
 
 
 def helper(bot):
   @bot.message_handler(commands=['help'])
   def help_command(message):
-    print(message)
+
+    logging.info(f'{message.from_user.username}, sent the /help command to the bot.')
+    logging.info(f'User Data: \n{message}')
+
     helpMsg = f"""
     Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
 
     /greet: I will say Hi to you.
-    /fetch: This is where the magic happens, I will fetch USA Market data for the ticker that you send me.
-
+    /fetch: This is where the magic happens, I fetch data for the ticker that you send me.
+    -----
     Examples: 
+        /fetch ^BVSP - fetch data from Indexes, in this case Bovespa
+        /fetch B3SA3.SA - fetch data from B3 in the Brazilian market
         /fetch AAPL - fetch data for Apple stock
         /fetch VT - fetch data for the ETF VT
         /fetch BTC-USD - fetch data for Bitcoin
@@ -58,14 +71,19 @@ def helper(bot):
         /fetch CL=F - fetch data from the future market, in this case is Crude Oil
         
         You can also fetch mutiple assets in one line:
-        /fetch aapl vt btc-usd usdbrl=x cl=f
+        /fetch aapl vt btc-usd usdbrl=x cl=f b3sa3.sa ^bvsp
+
+        If you don't know the ticker of the asset that you want you can search it on https://finance.yahoo.com thats where I fetch it from.
     """
     bot.reply_to(message, helpMsg, parse_mode='Markdown')
 
 def greet(bot):
   @bot.message_handler(commands=['greet'])
   def greet_command(message):
-    print(message)
+
+    logging.info(f'{message.from_user.username}, sent the /greet command to the bot.')
+    logging.info(f'User Data: \n{message}')
+
     if message.from_user.username == 'andreposman':
       bot.reply_to(message, 'Olá Mestre, Vai Palmeiras!')
 
@@ -78,11 +96,6 @@ def greet(bot):
     else:
       bot.reply_to(message, f'Olá {message.from_user.first_name} 👋')
 
-
-
-def extract_user_input(arg):
-  print(arg.split()[1:])
-  return arg.split()[1:]
 
 def validate_user_input(asset):
         if len(asset) <=0:
@@ -97,3 +110,7 @@ def is_asset_valid(data):
         else:
           return False
         
+
+def extract_user_input(arg):
+  print(arg.split()[1:])
+  return arg.split()[1:]
