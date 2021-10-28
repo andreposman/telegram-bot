@@ -3,24 +3,21 @@ import logging
 
 def others(message, data):
   performance =  utils.calculate.one_day_performance(data)
-  strPerformance = add_performance_emoji(performance)
+  performance_output = add_performance_emoji(performance)
   specialMsg = ' '
-  quoteType = data.info['quoteType']
 
-  if data.info['shortName'] == None or data.info['shortName'] == '':
-    data.info['shortName'] = data.info['symbol']
-  elif data.info['regularMarketPrice'] == None or data.info['regularMarketPrice'] == '':
-    data.info['regularMarketPrice'] = 'Price error'
-  elif strPerformance == None or strPerformance== '':
-    strPerformance = 'Performance error'
+  format_data_output(data, performance_output)
     
-  r = f"""Hey {message.from_user.first_name}{specialMsg}, here is the data that I found for:\n\n*{data.info['shortName']}*
-----------------------------------------------
-Symbol:               *{data.info['symbol']}*
-Current Price:             *${data.info['regularMarketPrice']}*
-Performance:               *{strPerformance}*
-"""
-  print(r)
+  r = f'''{message.from_user.first_name}{specialMsg}, here it is:\n\n*{data.info['shortName']}*
+  \n
+  Type:               *{data.info['quoteType']}*
+  Symbol:               *{data.info['symbol']}*
+  Current Price:             *${data.info['regularMarketPrice']}*
+  Performance:               *{performance_output}*
+  '''
+
+  logging.info(r)
+  
   return r
 
 
@@ -42,3 +39,11 @@ def add_performance_emoji(performance):
   strPerformance = strPerformance + str(performance) + '% ' + emojiSuffix
 
   return strPerformance
+
+def format_data_output(data, strPerformance):
+  if data.info['shortName'] == None or data.info['shortName'] == '':
+    data.info['shortName'] = data.info['symbol']
+  elif data.info['regularMarketPrice'] == None or data.info['regularMarketPrice'] == '':
+    data.info['regularMarketPrice'] = 'Price error'
+  elif strPerformance == None or strPerformance== '':
+    strPerformance = 'Performance error'
