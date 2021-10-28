@@ -50,8 +50,8 @@ def format_data_output(data, strPerformance):
   elif data.info['regularMarketPrice'] == None or data.info['regularMarketPrice'] == '':
     data.info['regularMarketPrice'] = 'Price error'
   
-  elif strPerformance == None or strPerformance== '':
-    strPerformance = 'Performance error'
+  elif performance_output == None or performance_output== '':
+    performance_output = 'Performance error'
   
   elif data.info['quoteType'] != 'INDEX':
     '$' + data.info['regularMarketPrice']
