@@ -1,11 +1,10 @@
 import utils.calculate
 import utils.messages
 
-def handle_others(message, bot, data):
+def handle_assets(message, bot, data):
   # if data.info['quoteType'] != 'CURRENCY' and data.info['quoteType'] != 'ETF' and data.info['quoteType'] != 'EQUITY' and data.info['quoteType'] != 'CRYPTOCURRENCY':
-    quoteType = data.info['quoteType']
     print("-----------------------------------------")
-    print(quoteType)
+    print(data.info['quoteType'])
     print("-----------------------------------------")
 
     if not utils.validate.data_has_price(data):

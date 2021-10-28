@@ -1,6 +1,6 @@
 
 def data_has_price(data):
-  if data.info['regularMarketPrice'] == None:
+  if data.info['regularMarketPrice'] != None:
     return False
 
 
