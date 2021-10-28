@@ -59,7 +59,6 @@ def helper(bot):
     """
     bot.reply_to(message, helpMsg, parse_mode='Markdown')
 
-
 def greet(bot):
   @bot.message_handler(commands=['greet'])
   def greet_command(message):
@@ -75,3 +74,9 @@ def greet(bot):
 
     else:
       bot.reply_to(message, f'Olá {message.from_user.first_name} 👋')
+
+
+
+def extract_arg(arg):
+  print(arg.split()[1:])
+  return arg.split()[1:]
