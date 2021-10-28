@@ -2,7 +2,7 @@ import utils.calculate
 import utils.messages
 
 def handle_others(message, bot, data):
-  if data.info['quoteType'] != 'CURRENCY' and data.info['quoteType'] != 'ETF' and data.info['quoteType'] != 'EQUITY' and data.info['quoteType'] != 'CRYPTOCURRENCY':
+  # if data.info['quoteType'] != 'CURRENCY' and data.info['quoteType'] != 'ETF' and data.info['quoteType'] != 'EQUITY' and data.info['quoteType'] != 'CRYPTOCURRENCY':
     quoteType = data.info['quoteType']
     print("-----------------------------------------")
     print(quoteType)

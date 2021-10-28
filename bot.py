@@ -16,9 +16,6 @@ env_path = Path('.env')
 load_dotenv(dotenv_path=env_path)
 bot = telebot.TeleBot(os.environ["API_KEY"])
 
-def extract_arg(arg):
-  print(arg.split()[1:])
-  return arg.split()[1:]
 
 def handleETF(message, bot, data):
   if data.info['quoteType'] == 'ETF':

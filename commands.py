@@ -1,5 +1,9 @@
 import telebot
 import securities
+import yfinance as yf
+import utils.validate
+import utils.messages
+import utils.calculate
 
 def stop_bot(bot, env):
   @bot.message_handler(commands=['stop'])
@@ -30,10 +34,10 @@ def fetch_bot(bot):
 
         else:
           print('in handlers block')
-          handleETF(message, bot, data)
-          handleEquity(message, bot, data)
-          handleCrypto(message, bot, data)
-          handleCurrency(message, bot, data)
+          # handleETF(message, bot, data)
+          # handleEquity(message, bot, data)
+          # handleCrypto(message, bot, data)
+          # handleCurrency(message, bot, data)
           securities.handle_others(message, bot, data)
 
 
