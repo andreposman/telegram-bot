@@ -23,7 +23,7 @@ def format_asset(message, data):
 
 
 def add_performance_emoji(performance):
-  strPerformance = ''
+  performance_output = ''
   emojiSuffix = ''
 
   if performance < 0:
@@ -32,14 +32,14 @@ def add_performance_emoji(performance):
       emojiSuffix = '⚰️'
 
   elif performance > 0:
-    strPerformance = ' +'
+    performance_output = ' +'
     emojiSuffix = '👍'
     if performance > 10: 
       emojiSuffix = '🚀💰'
 
-  strPerformance = strPerformance + str(performance) + '% ' + emojiSuffix
+  performance_output = performance_output + str(performance) + '% ' + emojiSuffix
 
-  return strPerformance
+  return performance_output
 
 def format_data_output(data, strPerformance, name_output):
   if data.info['longName'] == None or data.info['longName'] == '':
