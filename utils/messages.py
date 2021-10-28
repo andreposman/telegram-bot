@@ -6,7 +6,7 @@ def format_asset(message, data):
   price_output = str(data.info['regularMarketPrice'])
   performance =  utils.calculate.one_day_performance(data)
   performance_output = add_performance_emoji(performance)
-  name_output = data.info['longName'] or data.info['shortName']
+  name_output = data.info['symbol']
 
   format_data_output(data, performance_output, name_output, price_output)
     
