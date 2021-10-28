@@ -3,12 +3,16 @@ import logging
 
 def format_asset(message, data):
   specialMsg = ' '
+  name_output = ''
   price_output = str(data.info['regularMarketPrice'])
   performance =  utils.calculate.one_day_performance(data)
   performance_output = add_performance_emoji(performance)
-  name_output = ''
+
   if data.info['quoteType'] == 'EQUITY' or data.info['quoteType'] == 'ETF':
     name_output = data.info['longName']
+  else:
+    name_output = data.info['shortName']
+
 
   format_data_output(data, performance_output, name_output, price_output)
     
