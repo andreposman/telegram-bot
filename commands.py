@@ -23,7 +23,10 @@ def fetch_bot(bot):
     def fetch_command(message):
 
       asset = extract_user_input(message.text)
-      validate_user_input(asset)
+
+      if validate_user_input(asset):
+        bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
+
       
       for a in asset:
         data = yf.Ticker(a)
@@ -34,7 +37,7 @@ def fetch_bot(bot):
           securities.handle_assets(message, bot, data)
 
         else:
-          bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {s}. 🤔")
+          bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {a}. 🤔")
 
 
 def helper(bot):
@@ -83,7 +86,9 @@ def extract_user_input(arg):
 
 def validate_user_input(asset):
         if len(asset) <=0:
-          bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
+          return True
+        else:
+          return False
           
 
 def is_asset_valid(data):
