@@ -5,7 +5,7 @@ def format_asset(message, data):
   performance =  utils.calculate.one_day_performance(data)
   performance_output = add_performance_emoji(performance)
   specialMsg = ' '
-  name_output = ''
+  name_output = data.info['longName'] 
 
   format_data_output(data, performance_output, name_output)
     
@@ -44,9 +44,6 @@ def add_performance_emoji(performance):
 def format_data_output(data, strPerformance, name_output):
   if data.info['longName'] == None or data.info['longName'] == '':
     name_output = data.info['shortName']
-  
-  elif data.info['longName'] != None or data.info['longName'] != '':
-    name_output = data.info['longName']
   
   elif data.info['shortName'] == None or data.info['shortName'] == '':
     data.info['shortName'] = data.info['symbol']
