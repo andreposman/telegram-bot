@@ -1,8 +1,6 @@
 import os
-import re
 import telebot
 import logging
-import json
 import yfinance as yf
 import securities
 import commands
@@ -11,10 +9,11 @@ import utils.calculate
 from dotenv import load_dotenv
 from pathlib import Path
 
-env_path = Path('.env')
-init_logging(logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG, datefmt='%d-%m-%Y %H:%M:%S')  
 
+env_path = Path('.env')
 load_dotenv(dotenv_path=env_path)
+
 bot = telebot.TeleBot(os.environ["API_KEY"])
 
 
@@ -37,12 +36,9 @@ def main():
             if message.from_user.username == 'andreposman':
               bot.reply_to(message, f'Error: {e}')
         else:
+            logging.critical("for some reason mysterious reason you are reading this")
             break
             
 
 if __name__ == "__main__":
   main()
-
-
-def init_logging(level):
-  logging.basicConfig(format='%(asctime)s %(message)s', level=level, datefmt='%d-%m-%Y %H:%M:%S')  
