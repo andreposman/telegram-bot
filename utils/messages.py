@@ -1,18 +1,18 @@
 import utils.calculate
 import logging
 
-def others(message, data):
+def format_asset(message, data):
   performance =  utils.calculate.one_day_performance(data)
   performance_output = add_performance_emoji(performance)
   specialMsg = ' '
 
   format_data_output(data, performance_output)
     
-  r = f'''{message.from_user.first_name}{specialMsg}, here it is:\n\n*{data.info['shortName']}*
-  \n
-  Type:               *{data.info['quoteType']}*
+  r = f'''{message.from_user.first_name}{specialMsg}, here it is:\n*{data.info['longName']}*
+  \n\n
+  Type:                   *{data.info['quoteType']}*
   Symbol:               *{data.info['symbol']}*
-  Current Price:             *${data.info['regularMarketPrice']}*
+  Current Price:             *{data.info['regularMarketPrice']}*
   Performance:               *{performance_output}*
   '''
 
@@ -41,9 +41,18 @@ def add_performance_emoji(performance):
   return strPerformance
 
 def format_data_output(data, strPerformance):
-  if data.info['shortName'] == None or data.info['shortName'] == '':
+  if data.info['longName'] == None or data.info['longName'] == '':
+    data.info['longName'] = data.info['shortName']
+  
+  elif data.info['shortName'] == None or data.info['shortName'] == '':
     data.info['shortName'] = data.info['symbol']
+  
   elif data.info['regularMarketPrice'] == None or data.info['regularMarketPrice'] == '':
     data.info['regularMarketPrice'] = 'Price error'
+  
   elif strPerformance == None or strPerformance== '':
     strPerformance = 'Performance error'
+  
+  elif data.info['quoteType'] != 'INDEX':
+    '$' + data.info['regularMarketPrice']
+  

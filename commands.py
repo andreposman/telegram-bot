@@ -38,7 +38,7 @@ def fetch_bot(bot):
 
       for a in asset:
         data = yf.Ticker(a)
-        logging.info(f'Data found was: \n{data}')
+        logging.info(f'Data found was: \n{data.info}')
 
         if is_asset_valid(data):
           securities.handle_assets(message, bot, data)
@@ -74,7 +74,7 @@ def helper_bot(bot):
 
         If you don't know the ticker of the asset that you want you can search it on https://finance.yahoo.com thats where I fetch it from.
     '''
-    
+
     bot.reply_to(message, helpMsg, parse_mode='Markdown')
 
 def greet_bot(bot):
