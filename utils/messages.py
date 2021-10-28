@@ -2,9 +2,9 @@ import utils.calculate
 import logging
 
 def format_asset(message, data):
+  specialMsg = ' '
   performance =  utils.calculate.one_day_performance(data)
   performance_output = add_performance_emoji(performance)
-  specialMsg = ' '
   name_output = data.info['longName'] 
 
   format_data_output(data, performance_output, name_output)
@@ -23,7 +23,7 @@ def format_asset(message, data):
 
 
 def add_performance_emoji(performance):
-  performance_output = ''
+  performance_string = ''
   emojiSuffix = ''
 
   if performance < 0:
@@ -32,14 +32,14 @@ def add_performance_emoji(performance):
       emojiSuffix = '⚰️'
 
   elif performance > 0:
-    performance_output = ' +'
+    performance_string = ' +'
     emojiSuffix = '👍'
     if performance > 10: 
       emojiSuffix = '🚀💰'
 
-  performance_output = performance_output + str(performance) + '% ' + emojiSuffix
+  performance_string = performance_string + str(performance) + '% ' + emojiSuffix
 
-  return performance_output
+  return performance_string
 
 def format_data_output(data, strPerformance, name_output):
   if data.info['longName'] == None or data.info['longName'] == '':
