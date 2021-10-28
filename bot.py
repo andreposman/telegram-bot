@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 env_path = Path('.env')
-init_loggin(logging.DEBUG)
+init_logging(logging.DEBUG)
 
 load_dotenv(dotenv_path=env_path)
 bot = telebot.TeleBot(os.environ["API_KEY"])
