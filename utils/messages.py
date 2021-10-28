@@ -9,8 +9,7 @@ def format_asset(message, data):
 
   format_data_output(data, performance_output, name_output)
     
-  r = f'''{message.from_user.first_name}{specialMsg}, here it is:\n*{name_output}*
-  \n\n
+  r = f'''{message.from_user.first_name}{specialMsg}, here it is:\n\n*{name_output}*
   Type:                   *{data.info['quoteType']}*
   Symbol:               *{data.info['symbol']}*
   Current Price:             *{data.info['regularMarketPrice']}*
@@ -55,5 +54,5 @@ def format_data_output(data, performance_output, name_output,):
     performance_output = 'Performance error'
   
   elif data.info['quoteType'] != 'INDEX':
-    '$' + performance_output
+    '$' + str(data.info['regularMarketPrice'])
   
