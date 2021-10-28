@@ -6,7 +6,6 @@ import json
 import yfinance as yf
 import securities
 import commands
-import utils.validate
 import utils.messages
 import utils.calculate
 from dotenv import load_dotenv
@@ -20,8 +19,8 @@ bot = telebot.TeleBot(os.environ["API_KEY"])
 
 
 def run_bot(bot):
-  commands.greet(bot)
-  commands.helper(bot)
+  commands.greet_bot(bot)
+  commands.helper_bot(bot)
   commands.fetch_bot(bot)  
   commands.stop_bot(bot, os.environ["ENV"])
 

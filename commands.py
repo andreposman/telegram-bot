@@ -47,15 +47,14 @@ def fetch_bot(bot):
           logging.info(f'{message.from_user.username}. No data available found for: {a}')
           bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {a}. 🤔")
 
-
-def helper(bot):
+def helper_bot(bot):
   @bot.message_handler(commands=['help'])
   def help_command(message):
 
     logging.info(f'{message.from_user.username}, sent the /help command to the bot.')
     logging.info(f'User Data: \n{message}')
 
-    helpMsg = f"""
+    helpMsg = f'''
     Hi {message.from_user.first_name} 👋, this is how to use me, I have the following commands:
 
     /greet: I will say Hi to you.
@@ -74,10 +73,11 @@ def helper(bot):
         /fetch aapl vt btc-usd usdbrl=x cl=f b3sa3.sa ^bvsp
 
         If you don't know the ticker of the asset that you want you can search it on https://finance.yahoo.com thats where I fetch it from.
-    """
+    '''
+    
     bot.reply_to(message, helpMsg, parse_mode='Markdown')
 
-def greet(bot):
+def greet_bot(bot):
   @bot.message_handler(commands=['greet'])
   def greet_command(message):
 
