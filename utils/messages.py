@@ -6,14 +6,16 @@ def format_asset(message, data):
   price_output = str(data.info['regularMarketPrice'])
   performance =  utils.calculate.one_day_performance(data)
   performance_output = add_performance_emoji(performance)
-  name_output = data.info['shortName']
+  name_output = ''
+  if data.info['quoteType'] == 'EQUITY' or data.info['quoteType'] == 'ETF':
+    name_output = data.info['longName']
 
   format_data_output(data, performance_output, name_output, price_output)
     
   r = f'''  {message.from_user.first_name}{specialMsg}, here it is:\n\n *{name_output}*
-
+  ------------------------------------
   Type:                   *{data.info['quoteType']}*
-  Symbol:               *{data.info['symbol']}*
+  Symbol:                 *{data.info['symbol']}*
   Current Price:             *${price_output}*
   Performance:               *{performance_output}*
   '''
@@ -43,10 +45,7 @@ def add_performance_emoji(performance):
   return performance_string
 
 def format_data_output(data, performance_output, name_output, price_output):
-  if data.info['quoteType'] == 'EQUITY' or data.info['quoteType'] == 'ETF':
-    name_output = data.info['longName']
-
-  elif data.info['shortName'] == None or data.info['shortName'] == '':
+  if data.info['shortName'] == None or data.info['shortName'] == '':
     data.info['shortName'] = data.info['symbol']
   
   elif data.info['regularMarketPrice'] == None or data.info['regularMarketPrice'] == '':
