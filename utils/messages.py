@@ -42,10 +42,10 @@ def add_performance_emoji(performance):
   return strPerformance
 
 def format_data_output(data, strPerformance, name_output):
-  if data.info['longName'] == None or data.info['longName'] == '' or not 'longName' in data.info.keys():
+  if data.info['longName'] == None or data.info['longName'] == '':
     name_output = data.info['shortName']
   
-  elif data.info['longName'] != None or data.info['longName'] != '' or 'longName' in data.info.keys():
+  elif data.info['longName'] != None or data.info['longName'] != '':
     name_output = data.info['longName']
   
   elif data.info['shortName'] == None or data.info['shortName'] == '':
