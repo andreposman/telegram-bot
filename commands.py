@@ -1,4 +1,5 @@
 import telebot
+import securities
 
 def stop_bot(bot, env):
   @bot.message_handler(commands=['stop'])
@@ -12,6 +13,28 @@ def stop_bot(bot, env):
       return True
     else:
       bot.reply_to(message, "`DEU RUIM`", parse_mode='Markdown')
+
+def fetch_bot(bot):
+    @bot.message_handler(commands=['fetch'])
+    def fetch_command(message):
+      asset = extract_arg(message.text)
+      if len(asset) <=0:
+        bot.reply_to(message, f"Yo {message.from_user.first_name}, you have to send me stock ticker. 🙄")
+
+      for a in asset:
+        data = yf.Ticker(a)
+        print(data.info)
+
+        if utils.validate.data_has_price(data):
+          bot.reply_to(message, f"Yo {message.from_user.first_name}, I found no data available for {s}. 🤔")
+
+        else:
+          print('in handlers block')
+          handleETF(message, bot, data)
+          handleEquity(message, bot, data)
+          handleCrypto(message, bot, data)
+          handleCurrency(message, bot, data)
+          securities.handle_others(message, bot, data)
 
 
 def helper(bot):
